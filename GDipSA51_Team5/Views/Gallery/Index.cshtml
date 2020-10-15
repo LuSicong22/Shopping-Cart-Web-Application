@@ -1,0 +1,76 @@
+﻿@{
+    List<Product> Products = (List<Product>)ViewData["Products"];
+}
+
+@section Scripts
+{
+    <script src="~/js/Add.js"></script>
+}
+
+<header>
+    <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <a class="navbar-brand" asp-controller="Gallery" asp-action="Index">> hq_pkgs</a>
+        <div class="navbar-collapse">
+            <ul class="navbar-nav flex-grow-1">
+                <li class="nav-item">
+                    <a class="nav-link text-dark emphasize">Hi, @ViewData["Username"]</a>
+                </li>
+                @if (ViewData["sessionId"] == null)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-controller="Login" asp-action="Login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-controller="Registrate" asp-action="Index">Sign Up</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-controller="Purchase" asp-action="Index">My Purchases</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-controller="Logout" asp-action="Index">Logout</a>
+                    </li>
+                }
+            </ul>
+        </div>
+        <span style="float:right">
+            <a href="/Cart/Cart"><img src="~/img/cart.png" style="height:25px"></a>
+            <span id="cartNumber" class="badge" size="1"></span>
+        </span>
+    </nav>
+</header>
+
+
+<div>
+    @using (Html.BeginForm("Index", "Gallery", FormMethod.Get))
+    {
+        <input type="text" class="form-control-from" name="searchString" style="width: 20%; display:inline; margin-left: calc(2% + 1%)">
+        <input type="submit" class="button" style="display:inline;" value="Search">
+    }
+</div>
+
+<table id="mainframe">
+    @for (int i = 0; i < Products.Count; i += 3)
+    {
+        int j;
+
+        <tr>
+            @for (j = 0; j < 3 && i + j < Products.Count; j++)
+            {
+                <td class="listing">
+                    <img class="image" src=@Products[i + j].Url />
+                    <div id="pdt-name">@Products[i + j].Name</div>
+                    <div id="pdt-descr">@Products[i + j].Description</div>
+                    <input type="button" class="button add_button" photo_id=@Products[i + j].ProductId value="$@Products[i + j].Price - Add To Cart">
+                </td>
+            }
+
+            @for (; j < 3; j++)
+            {
+                <td class="td-filler"></td>
+            }
+        </tr>
+    }
+</table>

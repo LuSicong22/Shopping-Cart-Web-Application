@@ -1,0 +1,124 @@
+﻿@using GDipSA51_Team5.Models
+
+@{
+    List<Cart> productList = (List<Cart>)ViewData["productList"];
+    List<Product> details = (List<Product>)ViewData["details"];
+    List<KeyValuePair<int, int>> KeyValue = (List<KeyValuePair<int, int>>)ViewData["KeyValue"];
+
+    int numProducts, productQuantity, productId;
+    string productURL, productName, productDescription;
+    double productPrice;
+    if (productList != null)
+    {
+        numProducts = productList.Count();
+    }
+    else if (details != null)
+    {
+        numProducts = details.Count();
+    }
+    else
+    {
+        numProducts = 0;
+    }
+}
+
+@section Scripts
+{
+    <script src="~/js/Cart.js"></script>
+}
+
+<header>
+    <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <a class="navbar-brand" asp-controller="Gallery" asp-action="Index">> hq_pkgs</a>
+        <div class="navbar-collapse">
+            <ul class="navbar-nav flex-grow-1">
+                @if (ViewData["sessionId"] == null)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-controller="Login" asp-action="Login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-controller="Registrate" asp-action="Index">Sign Up</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item">
+                        <a class="nav-link text-dark emphasize">View Carts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-controller="Gallery" asp-action="Index">Continue Shopping</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-controller="Logout" asp-action="Index">Logout</a>
+                    </li>
+                }
+            </ul>
+        </div>
+        <span class="emphasize" style="float:right">Cart Total:$</span><span class="emphasize grand_total" style="float:right"></span>
+    </nav>
+</header>
+
+<table id="mainframe">
+    @for (int i = 0; i < numProducts; i++)
+    {
+        if (productList != null)
+        {
+            productQuantity = productList[i].Quantity;
+            productId = productList[i].ProductId;
+            productURL = productList[i].product.Url;
+            productName = productList[i].product.Name;
+            productDescription = productList[i].product.Description;
+            productPrice = productList[i].product.Price;
+        }
+        else
+        {
+            productQuantity = KeyValue[i].Value;
+            productId = details[i].ProductId;
+            productURL = details[i].Url;
+            productName = details[i].Name;
+            productDescription = details[i].Description;
+            productPrice = details[i].Price;
+        }
+        double itemTotal = productQuantity * productPrice;
+
+        <tr>
+            <td class="listing" style="padding-bottom: 1%;">
+                <img src=@productURL class="image" />
+                <div id="pdt-name">@productName</div>
+                <div id="pdt-descr">@productDescription</div>
+            </td>
+
+            <td class="td-filler">
+                <table>
+                    <tr>
+                        <td>Price:</td>
+                        <td>$<span class="price">@productPrice</span></td>
+                    </tr>
+                    <tr>
+                        <td>Quantity:</td>
+                        <td><input class="quantity" min="1" name="@productId-quantity" value="@productQuantity" type="number" productid="@productId"></td>
+                    </tr>
+                    <tr>
+                        <td>Total:</td>
+                        <td>$<span class="tbox-invisible product_total">@itemTotal</span></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2">
+                            <button class="remove_icon" product_id="@productId"><img src="~/img/delete.png" width="30" height="30" /></button>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+
+            <td class="td-filler"></td>
+        </tr>
+    }
+</table>
+<br />
+<form action="/Purchase/Transaction" method="post">
+    <input type="submit" class="button" style="float:right" value="CheckOut">
+</form>
+<br />
+
+<script src="~/js/Cart.js"></script>

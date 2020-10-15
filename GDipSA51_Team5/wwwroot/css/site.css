@@ -1,0 +1,83 @@
+﻿/* student-added CSS */
+#mainframe {
+    margin: auto;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 30px;
+}
+
+.listing {
+    border-color: lightgrey;
+    border-style: solid;
+    border-width: 1px;
+    height: 200px;
+    width: 30%;
+    text-align: center;
+    padding: 2% 2% 0% 2%;
+}
+
+#mainframe .td-filler {
+    border-width: 0px;
+    width: 30%;
+}
+
+.image {
+    height: 150px;
+    width: 150px;
+}
+
+#pdt-name {
+    font-weight: bold;
+    margin: 1%;
+}
+
+#pdt-descr {
+    text-align: justify;
+    margin: 2%;
+}
+
+.add_button {
+    position: relative;
+    bottom: 0px;
+    margin: 2%;
+    text-align: center;
+}
+
+.badge {
+    padding: 1px 9px 2px;
+    font-size: 15px;
+    font-weight: bold;
+    white-space: nowrap;
+    color: #ffffff;
+    background-color: #999999;
+    -webkit-border-radius: 9px;
+    -moz-border-radius: 9px;
+    border-radius: 9px;
+}
+
+.navbar-brand {
+    border-color: lightgrey;
+    border-style: solid;
+    border-width: 1px;
+    font-family: Consolas;
+    text-align: center;
+    padding: 5px;
+}
+
+.button {
+    background-color: white;
+    border-color: black;
+    border-style: solid;
+    border-width: 1px;
+    text-align: center;
+}
+
+.emphasize{
+    font-weight: bolder;
+}
+
+.err_msg {
+    color: red;
+    font-weight: bold;
+    padding: 10px;
+}

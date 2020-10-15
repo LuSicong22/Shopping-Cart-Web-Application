@@ -1,0 +1,42 @@
+﻿<style>
+    td{
+        padding: 5px;
+    }
+</style>
+
+<header>
+    <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <a class="navbar-brand" asp-controller="Gallery" asp-action="Index">> hq_pkgs</a>
+        <div class="navbar-collapse">
+            <ul class="navbar-nav flex-grow-1">
+                @if (ViewData["sessionId"] == null)
+                {
+                    <li class="nav-item" style="float:right">
+                        <a class="nav-link text-dark" asp-controller="Registrate" asp-action="Index">Sign Up</a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<form id="form" action="/Login/Authenticate" method="post">
+    <table align="center">
+        <tr>
+            <td>Username:</td>
+            <td><input name="username" class="form-control-from" id="username" value=@ViewData["username"] /></td>
+        </tr>
+        <tr>
+            <td>Password:</td>
+            <td><input name="password" class="form-control-from" id="password" type="password" /></td>
+        </tr>
+        <tr>
+            <td colspan="2" align="right"><input type="submit" id="submitBtn" class="button" value="Login"></td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center">
+                <div class="err_msg">@ViewData["errmsg"]</div>
+            </td>
+        </tr>
+    </table>
+</form>

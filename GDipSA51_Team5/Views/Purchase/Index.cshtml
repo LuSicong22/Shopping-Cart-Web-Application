@@ -1,0 +1,127 @@
+﻿@using GDipSA51_Team5.Models
+
+@{
+    ViewData["Title"] = "Index";
+    List<OrderDetail> purchaseinfo = (List<OrderDetail>)ViewData["purchaseinfo"];
+
+    List<OrderDetail> product1 = new List<OrderDetail>();
+    List<OrderDetail> product2 = new List<OrderDetail>();
+    List<OrderDetail> product3 = new List<OrderDetail>();
+    List<OrderDetail> product4 = new List<OrderDetail>();
+    List<OrderDetail> product5 = new List<OrderDetail>();
+    List<OrderDetail> product6 = new List<OrderDetail>();
+    List<List<OrderDetail>> ListofList = new List<List<OrderDetail>>() { product1, product2, product3, product4, product5, product6 };
+
+    foreach (OrderDetail i in purchaseinfo)
+    {
+        if (i.ProductId == 1)
+        {
+            product1.Add(i);
+        }
+        else if (i.ProductId == 2)
+        {
+            product2.Add(i);
+        }
+        else if (i.ProductId == 3)
+        {
+            product3.Add(i);
+        }
+        else if (i.ProductId == 4)
+        {
+            product4.Add(i);
+        }
+        else if (i.ProductId == 5)
+        {
+            product5.Add(i);
+        }
+        else if (i.ProductId == 6)
+        {
+            product6.Add(i);
+        }
+    }
+    for (int i = 0; i < ListofList.Count; i++)
+    {
+        if (ListofList[i].Count == 0)
+        {
+            ListofList.Remove(ListofList[i]);
+            i = -1; //to make the i become 0 again
+        }
+    }
+}
+
+<header>
+    <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <a class="navbar-brand" asp-controller="Gallery" asp-action="Index">> hq_pkgs</a>
+        <div class="navbar-collapse">
+            <ul class="navbar-nav flex-grow-1">
+                @if (ViewData["sessionId"] == null)
+                {
+                    /* should always be false */
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-controller="Login" asp-action="Login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-controller="Registrate" asp-action="Index">Sign Up</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item">
+                        <a class="nav-link text-dark emphasize">My Purchases</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-controller="Gallery" asp-action="Index">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-controller="Logout" asp-action="Index">Logout</a>
+                    </li>
+                }
+            </ul>
+        </div>
+        <span style="float:right">
+            <a href="/Cart/Cart"><img src="~/img/cart.png" style="height:25px"></a>
+            <span id="cartNumber" class="badge" size="1"></span>
+        </span>
+    </nav>
+</header>
+
+<table id="mainframe">
+        @for (int i = 0; i < ListofList.Count; i++)
+        {
+        <tr>
+            <td class="listing" style="padding-bottom: 1%;">
+                <img src=@ListofList[i][0].Products.Url class="image" />
+                <div id="pdt-name">@ListofList[i][0].Products.Name</div>
+                <div id="pdt-descr">@ListofList[i][0].Products.Description</div>
+                <input type="button" name="button" class="button" value="Download" />
+            </td>
+
+            <td class="td-filler">
+                <table>
+                    <tr>
+                        <td>Purchased On:</td>
+                        <td>@ListofList[i][0].PurchaseDate.ToLongDateString()</td>
+                    </tr>
+                    <tr>
+                        <td>Quantity:</td>
+                        <td>@ListofList[i].Count</td>
+                    </tr>
+                    <tr>
+                        <td>Activation Code:</td>
+                        <td>
+                            <form>
+                                <select id="select">
+                                    @foreach (OrderDetail z in ListofList[i])
+                                    {
+                                        <option value="@z.ActivationCode">@z.ActivationCode</option>
+                                    }
+                                </select>
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td class="td-filler"></td>
+    </tr>
+    }
+</table>
